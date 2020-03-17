@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.persistence.EntityManager;
 import com.conexao.JPAUtil;
+import com.dao.UfDao;
 import com.model.Uf;
 import com.model.csv.UfCsv;
 
@@ -22,6 +23,7 @@ public class LeitorArquivo {
 			String linha = br.readLine();
 			
 			EntityManager em = JPAUtil.getEntityManager();
+			UfDao ufDao = new UfDao(em);
 			em.getTransaction().begin();
 			
 			while (linha != null) {
@@ -29,7 +31,8 @@ public class LeitorArquivo {
 				Uf uf = new Uf();
 				uf.setNome(ufCsv.getNome());
 				uf.setSigla(ufCsv.getSigla());
-				em.persist(uf);
+				
+				ufDao.inserir(uf);
 				
 				linha = br.readLine();
 			}
