@@ -1,18 +1,19 @@
 package com.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="uf",
-	indexes = {@Index(name="searchByNameUf", columnList="nome")})
+@Table(name="tb_uf")
 
 public class Uf implements Serializable{
 
@@ -22,13 +23,13 @@ public class Uf implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column()
 	private Long id;
-
 	@Column(name="sigla",length = 2, nullable = false, unique = true)
 	private String sigla;
-
-	@Column(name="nome",length = 30, nullable = false, unique = true)
+	@Column(name="nome",length = 20, nullable = false, unique = true)
 	private String nome;
-
+	@OneToMany(mappedBy="uf")
+	private List<Municipio> municipios = new ArrayList<>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,6 +52,14 @@ public class Uf implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public List<Municipio> getMunicipios() {
+		return municipios;
+	}
+
+	public void setMunicipios(List<Municipio> municipios) {
+		this.municipios = municipios;
 	}
 
 	@Override
