@@ -8,8 +8,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.persistence.EntityManager;
 import com.conexao.JPAUtil;
+import com.model.Uf;
+import com.model.csv.UfCsv;
 
 public class LeitorArquivo {
+	
 	public void executa(String arquivo) {
 
 		try {
@@ -22,7 +25,12 @@ public class LeitorArquivo {
 			em.getTransaction().begin();
 			
 			while (linha != null) {
-				System.out.println(linha);
+				UfCsv ufCsv = new UfCsv(linha);
+				Uf uf = new Uf();
+				uf.setNome(ufCsv.getNome());
+				uf.setSigla(ufCsv.getSigla());
+				em.persist(uf);
+				
 				linha = br.readLine();
 			}
 			
