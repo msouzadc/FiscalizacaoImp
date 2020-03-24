@@ -6,47 +6,27 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import javax.persistence.EntityManager;
-import com.conexao.JPAUtil;
-import com.dao.UfDao;
-import com.model.Uf;
-import com.model.csv.UfCsv;
 
 public class LeitorArquivo {
 	
-	public void executa(String arquivo) {
+	public void executa(String arquivo, Processador processador) {
 
 		try {
 			InputStream inputStream = new FileInputStream(arquivo);
-			InputStreamReader importStreamReader = new InputStreamReader(inputStream);
+			InputStreamReader importStreamReader = new InputStreamReader(inputStream, "UTF-8");
 			BufferedReader br = new BufferedReader(importStreamReader);
-			String linha = br.readLine();
-			
-			EntityManager em = JPAUtil.getEntityManager();
-			UfDao ufDao = new UfDao(em);
-			em.getTransaction().begin();
+			String linha = br.readLine();	
 			
 			while (linha != null) {
-				UfCsv ufCsv = new UfCsv(linha);
-				Uf uf = new Uf();
-				uf.setNome(ufCsv.getNome());
-				uf.setSigla(ufCsv.getSigla());
-				
-				ufDao.inserir(uf);
-				
-				linha = br.readLine();
-			}
-			
+				System.out.println(linha);
+				linha = br.readLine();		
+			}				
 			br.close();
-			em.getTransaction().commit(); em.close();
-			
-				
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

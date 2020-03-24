@@ -5,14 +5,16 @@ public class UfCsv {
 	private String campos[];
 
 	public UfCsv(String linha) {
+		System.out.println(linha);
 		campos = linha.split(",");
 	}
 
 	public String getNome() {
-		return campos[0].toUpperCase();
+		return campos[0].toUpperCase().trim();
 	}
 
 	public String getSigla() {
+
 		return campos[1].trim();
 	}
 
