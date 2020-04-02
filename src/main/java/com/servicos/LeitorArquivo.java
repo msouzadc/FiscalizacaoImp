@@ -18,8 +18,8 @@ public class LeitorArquivo {
 			String linha = br.readLine();	
 			
 			while (linha != null) {
-				System.out.println(linha);
-				linha = br.readLine();		
+				processador.processa(linha);
+				linha = br.readLine();	
 			}				
 			br.close();
 		} catch (FileNotFoundException e) {

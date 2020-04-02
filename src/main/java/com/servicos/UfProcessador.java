@@ -19,7 +19,7 @@ public class UfProcessador implements Processador {
 	public void processa(String linha) {
 		try {
 			em.getTransaction().begin();
-			
+			System.out.println(linha);
 			UfCsv ufCsv = new UfCsv(linha);
 			Uf uf = new Uf();
 			uf.setNome(ufCsv.getNome());

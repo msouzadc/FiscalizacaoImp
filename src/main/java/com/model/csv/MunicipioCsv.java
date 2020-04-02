@@ -1,19 +1,21 @@
 package com.model.csv;
 
 public class MunicipioCsv {
-	private String campos [];
+	private String nome;
+	private String sigla;
 	
 	public MunicipioCsv (String linha) {
-		System.out.println(linha);
-		campos = linha.split(":");
+		String campos [] = linha.split(";");
+		nome = campos[3];
+		sigla = campos [0];
 	}
 	
 	public String getNome() {
-		return campos[0];
+		return nome.toUpperCase();
 	}
 	
 	public String getUf() {
-		return campos[1];
+		return sigla.toUpperCase().trim();
 	}
 
 }
