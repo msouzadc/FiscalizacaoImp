@@ -5,7 +5,6 @@ public class UfCsv {
 	private String campos[];
 
 	public UfCsv(String linha) {
-		System.out.println(linha);
 		campos = linha.split(",");
 	}
 

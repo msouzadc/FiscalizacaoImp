@@ -25,7 +25,18 @@ public class UfDao {
 		}catch (NoResultException e) {
 			return null;
 		}
+	}
 
+	public Uf buscarPorNome(String nome) {
+		try {
+			TypedQuery<Uf> query = em.createQuery("SELECT u FROM Uf u WHERE u.nome = :nomeUf", Uf.class);
+			query.setParameter("nomeUf", nome);
+			return  query.getSingleResult();
+			 
+		} catch (NoResultException e) {
+			return null;
+		}
+	
 	}
 
 }
