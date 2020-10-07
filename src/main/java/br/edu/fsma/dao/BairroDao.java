@@ -20,8 +20,15 @@ public class BairroDao {
 	}
 
 	public Bairro busca(Municipio municipio, String nomeBairro) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT b  ");
+		sb.append(" FROM Bairro b ");
+		sb.append("WHERE ");
+		sb.append("   b.nome = :Bairro ");
+		sb.append("   and  b.municipio = :municipio");
+		
 		try {
-			TypedQuery<Bairro> query = em.createQuery("SELECT b FROM Bairro b WHERE b.nome = :Bairro and b.municipio = :municipio", Bairro.class);
+			TypedQuery<Bairro> query = em.createQuery(sb.toString(), Bairro.class);
 			query.setParameter("Bairro", nomeBairro);
 			query.setParameter("municipio", municipio);
 			return  query.getSingleResult();

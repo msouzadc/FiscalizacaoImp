@@ -14,8 +14,8 @@ import br.edu.fsma.modelo.Municipio;
 import br.edu.fsma.modelo.Uf;
 import br.edu.fsma.modelo.csv.EmpresaCsv;
 
-public class FiscalizacaoProcessador implements  ArquivoFiscalizacaoProcessador  {
-	private EntityManager em;
+public class FiscalizacaoProcessador implements  ArquivoFiscalizacaoProcessador {
+	
 	private UfDao ufDao;
 	private MunicipioDao municipioDao;
 	private BairroDao bairroDao;
@@ -23,7 +23,6 @@ public class FiscalizacaoProcessador implements  ArquivoFiscalizacaoProcessador 
 	private FiscalizacaoDao fiscalizacaoDao;		
 	
 	public FiscalizacaoProcessador(EntityManager em) {
-		this.em=em;
 		this.empresaDao= new EmpresaDao(em);
 		this.ufDao = new UfDao(em);
 		this.municipioDao = new MunicipioDao(em);
@@ -35,7 +34,6 @@ public class FiscalizacaoProcessador implements  ArquivoFiscalizacaoProcessador 
 	public void processa(EmpresaCsv empresaCsv) {
 			
 			if (empresaCsv.isNaoValido()) {
-				em.getTransaction().rollback();
 				return;
 			}
 			if (ValidadorCNPJ.isNotValid(empresaCsv.getCnpj())){
@@ -67,24 +65,17 @@ public class FiscalizacaoProcessador implements  ArquivoFiscalizacaoProcessador 
 				fiscalizacao = new Fiscalizacao();
 				fiscalizacao.setData(empresaCsv.getData());
 				fiscalizacao.setEmpresa(empresa);
-				empresa.setRazaoSocial(empresaCsv.getRazaoSocial());
 				fiscalizacao.setBairro(bairro);
 				fiscalizacao.setMunicipio(municipio);
 				fiscalizacao.setUf(uf);	
-				fiscalizacao.setCep(empresaCsv.getCep());  
+				fiscalizacao.setCep(empresaCsv.getCep()); 
+				fiscalizacaoDao.inserir(fiscalizacao);
+				
+				if (fiscalizacao.getData().isAfter(empresa.getData())) {
+					empresa.setRazaoSocial(empresaCsv.getRazaoSocial());
+					empresaDao.atualizar(empresa);
+				}
 			}
-			
-			if (empresaCsv.getData().isAfter(empresa.getData())) {
-				fiscalizacao.setData(empresaCsv.getData());
-				fiscalizacao.setEmpresa(empresa);
-				empresa.setRazaoSocial(empresaCsv.getRazaoSocial());
-				fiscalizacao.setBairro(bairro);
-				fiscalizacao.setMunicipio(municipio);
-				fiscalizacao.setUf(uf);	
-				fiscalizacao.setCep(empresaCsv.getCep());
-				empresaDao.atualizar(empresa);
-			}
-		fiscalizacaoDao.inserir(fiscalizacao);
 	}
 
 }

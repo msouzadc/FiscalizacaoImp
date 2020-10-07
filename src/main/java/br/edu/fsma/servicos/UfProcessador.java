@@ -11,7 +11,7 @@ public class UfProcessador implements Processador {
 	private UfDao ufDao;
 		
 	public UfProcessador(EntityManager em) {
-		this.em=em;
+		this.em = em;
 		this.ufDao= new UfDao(em);
 	}
 

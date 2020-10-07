@@ -7,12 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_bairro")
+@Table(name="tb_bairro", 
+	indexes = { @Index(name = "idx_01_bairro", columnList = "nome,municipio_id") }
+)
 public class Bairro implements Serializable {
 	
 	private static final long serialVersionUID = 1l;

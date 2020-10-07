@@ -9,11 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_uf")
+@Table(name="tb_uf",
+		indexes = { @Index(name = "idx_01_uf", columnList = "nome") }
+)
 
 public class Uf implements Serializable{
 

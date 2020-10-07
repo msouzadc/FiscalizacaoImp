@@ -12,19 +12,19 @@ import br.edu.fsma.modelo.csv.EmpresaCsv;
 
 public class BairroProcessador implements ArquivoFiscalizacaoProcessador {
 	
-	private EntityManager em;
 	private MunicipioDao municipioDao;
 	private BairroDao bairroDao;
 	private UfDao ufDao;
 	
 	public BairroProcessador(EntityManager em) {
-		this.em = em;
+		
 		this.bairroDao = new BairroDao(em);
 		this.municipioDao = new MunicipioDao(em);
 		this.ufDao = new UfDao(em);
 	}
 	
 	public void processa(EmpresaCsv empresaCsv) {
+		
 		if (empresaCsv.isNaoValido()) {
 			return;
 		}
@@ -39,6 +39,7 @@ public class BairroProcessador implements ArquivoFiscalizacaoProcessador {
 		if (municipio == null) {
 			return;
 		}
+		
 		Bairro bairro = bairroDao.busca(municipio, empresaCsv.getBairro());
 		if (bairro == null) {
 			bairro = new Bairro();

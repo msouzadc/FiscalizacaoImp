@@ -8,12 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="fiscalizacao")
+@Table(name="tb_fiscalizacao",
+	indexes = { @Index(name = "idx_01_fiscalizacao", columnList = "id_empresa,data") })
+
 public class Fiscalizacao implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
